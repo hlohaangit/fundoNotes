@@ -5,7 +5,7 @@
 }
 
 .forgot-email-button{
-  @include color-picker(cornflowerblue);
+  @include color-picker(rgb(49, 99, 190));
   margin-left:0.25em;
   cursor: pointer;
   // pointer-events: all;
@@ -13,17 +13,19 @@
 
 .complete-box{
   margin-top: 5%;
+  
 }
 
 .not-your-computer{
   margin-top: 15%;
+
 }
 
 .learn-more{
-  @include color-picker(cornflowerblue);
+  @include color-picker(rgb(46, 109, 228));
   cursor: pointer;
 }
 
 .create-account-next-div{
-  margin-top:15%;
+  margin-top:20%;
 }
