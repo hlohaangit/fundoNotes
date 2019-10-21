@@ -1,5 +1,14 @@
 @import "src/app/scss/styles.scss";
 
+
+.bk{
+   background-image: url(https://designshack.net/wp-content/uploads/best-subtle-black-white-background-textures.jpg);
+ }
+
+ #box{
+  background-color: rgb(245, 245, 245);
+}
+
 .email-bar{
   width: 100%;
 }
@@ -28,4 +37,8 @@
 
 .create-account-next-div{
   margin-top:20%;
+}
+
+body {
+  background-color: green;
 }

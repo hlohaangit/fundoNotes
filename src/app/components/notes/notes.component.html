@@ -1,4 +1,4 @@
-<div fxLayout.gt-md="row wrap" fxLayout.lt-md="column" fxLayoutGap="2px" fxLayoutAlign="space-around start">
+<div fxLayout.gt-md="row wrap" fxLayout.lkt-md="column" fxLayoutGap="2px" fxLayoutAlign="space-around start">
     <div *ngFor="let note of notesList.reverse()">
         <mat-card *ngIf="!note.isDeleted" ngClass.lt-md="note-smaller-screen" ngClass.gt-md="note-bigger-screen"
             class="extra-actions">
