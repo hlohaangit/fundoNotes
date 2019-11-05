@@ -1,0 +1,52 @@
+<div style="width:100%;height: auto;" fxLayoutAlign="center start">
+  
+  <div style="width:70%;" fxLayoutAlign="start start" [fxLayout]="data.viewLayoutType" fxLayout.lt-sm="column" gdGridAlign>
+  
+    <div *ngFor="let note of notesList?.reverse()">
+      
+      <mat-card [ngStyle]="{'background-color':note.color}" ngStyle.gt-xs="margin-left:15px;"  ngClass.lt-sm="mat-card-list-lt-sm" *ngIf="note.isDeleted" 
+           [ngClass]="{'mat-card-list-gt-xs':!data.viewStyling,'mat-card-grid-gt-xs':data.viewStyling}">
+          
+          <mat-card-title fxLayoutAlign="space-between center">
+    
+            <div style="width:100%;overflow-wrap: break-word;">
+              {{note.title}}
+            </div>
+    
+          </mat-card-title>
+          <mat-card-content style="white-space: pre-wrap;overflow-wrap: break-word;">
+            <div>
+              {{note.description}}
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <mat-chip-list>
+              <mat-chip *ngFor="let label of note.noteLabels">
+                {{label.label}}
+              </mat-chip>
+            </mat-chip-list>
+        </mat-card-actions>
+        <mat-card-footer>
+  
+          <div fxLayoutAlign="start center">
+  
+            <div><button mat-icon-button color="" [matMenuTriggerFor]="more">
+                <mat-icon matTooltip="More">more_vert</mat-icon>
+              </button>
+              <mat-menu #more="matMenu" yPosition="below">
+                <button (click)="deleteForever(note);" mat-menu-item>
+                  Delete forever
+                </button>
+                <button (click)="restoreNotes(note);" mat-menu-item>
+                  Restore
+                </button>
+              </mat-menu>
+            </div>
+          </div>
+  
+        </mat-card-footer>
+  
+      </mat-card>
+    </div>
+  </div>
+</div>

@@ -1,77 +1,47 @@
-<div class='bk' fxFlexFill fxLayout="column">
-  <div fxFlex fxLayoutAlign="center start" class="complete-box">
-    <mat-card id='box'>
-      <mat-card-title fxLayoutAlign="center">
+<div class="login-page" fxLayout="column" fxLayoutAlign="center center">
+  <div fxLayoutAlign="center center" fxLayout="column" ngClass.gt-xs="border-class" ngClass.lt-sm="no-border-class">
 
-        <div class="blue-color">F</div>
-        <div class="red-color">u</div>
-        <div class="orange-color">n</div>
-        <div class="blue-color">d</div>
-        <div class="green-color">o</div>
-        <div class="red-color">o</div>
-        <div class="blue-color">N</div>
-        <div class="red-color">o</div>
-        <div class="orange-color">t</div>
-        <div class="blue-color">e</div>
-        <div class="green-color">s</div>
+    <!-- title -->
+    <div class="fundoo-title-class">Fundoo</div>
 
-      </mat-card-title>
+    <!-- page description-->
+  
+    <div class="signin-text">Sign in</div>
+    <div class="use-text">Use your Fundoo Account</div>
+  
+    <!-- Email or phone input field -->
+  
+    <form class="form-width" fxLayout="column" [formGroup]="loginFormGroup">
+      
+      <!-- email or phone field -->
+      
+      <mat-form-field class="email-bar" appearance="outline">
+        <mat-label>Email or phone</mat-label>
+        <input matInput formControlName="email" />
+      </mat-form-field>
+      
+      <!-- password field -->
+  
+      <mat-form-field class="password-bar" appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password"/>
+        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hidePassword">
+          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
 
-      <mat-card-title fxLayoutAlign="center">
-        Sign In
-      </mat-card-title>
+    </form>
+  
+    <div class="forgot-class" fxFlexLayoutAlign="start start"><a (click)="forgotPassword()">Forgot password?</a></div>
+    <div class="notComputer">Not your computer? Use Guest mode to sign in privately.
+      <a class="learnMore">Learn more</a>
+    </div>
 
-      <mat-card-content fxLayoutAlign="center">
-        Use your fundoo account
-      </mat-card-content>
+    <div class="further-step" fxLayout="row" fxLayoutAlign="space-between center">
+      <div><a mat-button (click)="registerPage()">create account</a></div>
+      <div><button mat-raised-button color="primary" (click)="login()">Login</button></div>
+    </div>
 
-      <form [formGroup]="loginForm">
-        <mat-card-content fxLayout="column">
-          <mat-form-field appearance="outline" hideRequiredMarker>
-            <mat-label>Email or phone</mat-label>
-            <input matInput required formControlName="emailFormControl" class="email-bar">
-          </mat-form-field>
-          <mat-form-field appearance="outline" hideRequiredMarker>
-            <mat-label>Password</mat-label>
-            <input type="password" matInput required formControlName="passwordFormControl" class="email-bar">
-          </mat-form-field>
-          <a fxLayoutAlign="start" class="forgot-email-button" (click)="forgotPassword()">
-            Forgot password?
-          </a>
-        </mat-card-content>
-      </form>
-
-      <div class="not-your-computer">
-        <mat-card-subtitle>
-          Not your computer? Use Guest mode to sign in privately.
-          <a fxLayoutAlign="start" class="learn-more">
-            Learn More
-          </a>
-        </mat-card-subtitle>
-      </div>
-
-      <div class="create-account-next-div" flexLayout="row" fxLayoutAlign="space-between">
-        <mat-card-content fxLayoutAlign="start">
-          <div style="margin-left:-13%">
-            <button mat-button [matMenuTriggerFor]="menu" class="learn-more">
-              <!-- Learn more class has same colour and no specific margin, hence used here -->
-              Create Account
-            </button>
-            <mat-menu #menu="matMenu">
-              <button (click)="onClick()" mat-menu-item>For Myself</button>
-              <button mat-menu-item>To Manage My Business</button>
-            </mat-menu>
-          </div>
-        </mat-card-content>
-        <mat-card-content fxLayoutAlign="end">
-          <div>
-            <button (click)="logIn()" mat-raised-button class="next-button">
-              Next
-            </button>
-          </div>
-        </mat-card-content>
-      </div>
-
-    </mat-card>
   </div>
 </div>

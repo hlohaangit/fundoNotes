@@ -1,44 +1,50 @@
-@import "src/app/scss/styles.scss";
-
-
-.bk{
-   background-image: url(https://designshack.net/wp-content/uploads/best-subtle-black-white-background-textures.jpg);
- }
-
- #box{
-  background-color: rgb(245, 245, 245);
+@import 'src/app/SCSS/styles';
+.login-page{
+    @include page-resolution();
 }
-
+.border-class{
+    @include border-gt-xs(450px,35%,31em);
+}
+.no-border-class{
+    position: $positionAbsolute;
+    width:$fullWidth;
+    height: $fullHeight;
+    overflow: $overflowAuto;
+}
+.fundoo-title-class{
+    font-size:20px;
+}
+.signin-text{
+    margin-top:1em;
+    font-size: 20px;
+}
+.use-text{
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+}
 .email-bar{
-  width: 100%;
+    // margin-top:1em;
+    width:$fullWidth;
+}
+.password-bar{
+    width:$fullWidth;
+}
+.forgot-class{
+    margin-top:-1em;
+    width:$commonMatWidth;
+    z-index: 1;
+}
+.notComputer{
+    margin-top:2em;
+    width:$commonMatWidth;
+    font-size:14.5px;
+    color: grey;
+}
+.further-step{
+    margin-top:3em;
+    width:$commonMatWidth;
 }
 
-.forgot-email-button{
-  @include color-picker(rgb(49, 99, 190));
-  margin-left:0.25em;
-  cursor: pointer;
-  // pointer-events: all;
-}
-
-.complete-box{
-  margin-top: 5%;
-  
-}
-
-.not-your-computer{
-  margin-top: 15%;
-
-}
-
-.learn-more{
-  @include color-picker(rgb(46, 109, 228));
-  cursor: pointer;
-}
-
-.create-account-next-div{
-  margin-top:20%;
-}
-
-body {
-  background-color: green;
+.form-width{
+    width:$commonMatWidth;
 }

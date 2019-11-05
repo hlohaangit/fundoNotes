@@ -1,0 +1,43 @@
+<div style="padding:5%">
+  <div mat-dialog-title>
+      Collaborators
+    </div>
+    <mat-divider></mat-divider>
+    <div mat-dialog-content >
+      <mat-list style="height:auto;max-height:200px;overflow-y: scroll;">
+        <mat-list-item>
+          <mat-icon mat-list-icon>person</mat-icon>
+          <div mat-line>
+              {{data.user.firstName}} {{data.user.lastName}}<i>(Owner)</i>
+          </div>
+          <div mat-line>
+              {{data.user.email}}
+          </div>
+        </mat-list-item>
+        <div *ngIf="data.collaborators.length>0">
+          <mat-list-item *ngFor="let person of data.collaborators">
+            <mat-icon mat-list-icon>person</mat-icon>
+            <div mat-line>
+                {{person.firstName}} {{person.lastName}}
+            </div>
+            <div mat-line>
+                {{person.email}}
+            </div>
+            <button (click)="remove(data.id,person.userId)" mat-icon-button><mat-icon>cancel</mat-icon></button>
+          </mat-list-item>
+        </div>
+        
+      </mat-list>
+      <mat-list>
+        <mat-list-item>
+          <mat-icon mat-list-icon>person_add</mat-icon>
+            <input type="search" (keypress)="searchOnKeyPress($event)" placeholder="Email to share with" aria-label="Number" matInput [formControl]="searchWord" [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let user of users" (click)="onSelect(user)" style="font-size: 14px;">
+                  {{user.firstName}} {{user.lastName}} [{{user.email}}]
+                </mat-option>
+              </mat-autocomplete>
+        </mat-list-item>
+      </mat-list>
+    </div>
+</div>

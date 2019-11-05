@@ -1,63 +1,93 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule, MatListModule, MatButtonModule, MatToolbarModule, MatExpansionModule,
+   MatCheckboxModule, MatCardModule, MatTooltipModule, MatTabsModule,
+    MatProgressBarModule, MatChipsModule, MatDatepickerModule, MatAutocompleteModule } from '@angular/material'
+import { MatMenuModule, MatOptionModule, MatSelectModule } from '@angular/material'
+import { MatFormFieldModule, MatIconModule, MatSnackBarModule, MatSidenavModule, MatDialogModule } from '@angular/material'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppRoutingModule } from './/app-routing.module';
 import { LoginComponent } from './components/login/login.component';
-import { AppRoutingModule } from './app-routing.module';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import {
-  MatButtonModule, MatInputModule, MatListModule,
-  MatCardModule, MatFormFieldModule, MatMenuModule, MatSelectModule, 
-  MatOptionModule, MatIconModule, MatSnackBarModule, MatSidenavModule, MatToolbarModule, MatTooltipModule, MatCheckboxModule, MatExpansionModule
-} from '@angular/material';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { RegisterComponent } from './components/register/register.component';
+import { FlexLayoutModule, GridModule } from '@angular/flex-layout';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { UserService } from './services/userServices/user.service';
+import { HttpService } from './services/httpServices/http.service';
 import { HttpClientModule } from '@angular/common/http';
-import { HttpServiceService } from '../app/services/http-service.service';
-import { UserServiceService } from '../app/services/user-service.service';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LayoutModule } from '@angular/cdk/layout';
+import { ClickOutsideModule } from 'ng-click-outside';
 import { NotesComponent } from './components/notes/notes.component';
+import { NgxPopper } from 'angular-popper';
+import { ArchiveComponent } from './components/archive/archive.component';
+import { TrashComponent } from './components/trash/trash.component';
+import { UpdateDialogComponent } from './components/update-dialog/update-dialog.component';
+import { AuthGuard, RegisterGuard } from './auth/auth.guard';
+import { CartDialogComponent } from './components/cart-dialog/cart-dialog.component';
+import { LabelsDialogComponent } from './components/labels-dialog/labels-dialog.component';
+import { CartService } from './services/cartServices/cart.service';
+import { CardComponent } from './components/card/card.component';
+import { LabelService } from './services/label/label.service';
+import { LabelnotesComponent } from './components/labelnotes/labelnotes.component';
+import { CollaboratorDialogComponent } from './components/collaborator-dialog/collaborator-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
+    ForgotPasswordComponent,
     ResetPasswordComponent,
     DashboardComponent,
-    NotesComponent
+    NotesComponent,
+    ArchiveComponent,
+    TrashComponent,
+    UpdateDialogComponent,
+    CartDialogComponent,
+    LabelsDialogComponent,
+    CardComponent,
+    LabelnotesComponent,
+    CollaboratorDialogComponent
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
     FormsModule,
     MatInputModule,
-    MatIconModule,
     MatListModule,
     MatButtonModule,
-    MatCheckboxModule,
-    MatExpansionModule,
-    MatCardModule,
     MatFormFieldModule,
+    MatIconModule,
     MatMenuModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatCardModule,
     MatSnackBarModule,
     MatSidenavModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatSelectModule,
-    MatOptionModule,
+    MatExpansionModule,
+    MatDialogModule,
+    MatTabsModule,
+    MatChipsModule,
+    MatProgressBarModule,
+    MatDatepickerModule,
+    MatAutocompleteModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
     FlexLayoutModule,
+    GridModule,
     HttpClientModule,
-    LayoutModule
+    LayoutModule,
+    ClickOutsideModule,
+    NgxPopper
   ],
-  providers: [
-    HttpServiceService,
-    UserServiceService
-  ],
+  entryComponents: [UpdateDialogComponent, CartDialogComponent, LabelsDialogComponent, CollaboratorDialogComponent],
+  providers: [UserService, HttpService, AuthGuard, CartService, LabelService, RegisterGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

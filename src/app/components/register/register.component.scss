@@ -1,36 +1,80 @@
-@import "src/app/scss/styles.scss";
+@import 'src/app/SCSS/styles';
 
-.first-name-bigger-screen {
-  width: 45%;
+.common-property{
+    width: $commonMatWidth;
+}
+.register-page{
+    width: $fullWidth;
+    height:$fullHeight;
+}
+.no-border-register{
+    position: $positionAbsolute;
+    width:$fullWidth;
+    height: $fullHeight;
+    overflow: $overflowAuto;
+}
+.border-register{
+    @include border-gt-xs(450px,50%,35em);
+}
+.border-greater-than-medium{
+    @include border-gt-xs(700px, 50%,37em);
+}
+.fundoo-title-register{
+    font-size:24px;
+}
+.account-register{
+    margin-bottom:0.5em;
+    font-size:24px;
+}
+.first-last-name{
+    width:45%;
+}
+.first-last-name-sm{
+    width:$fullWidth;
 }
 
-.last-name-bigger-screen {
-  width: 50%;
-  // margin-left: 5%;
+.password-lt-sm{
+    width : $fullWidth;
+    margin-bottom: 1em;
 }
-
-.first-last-name-smaller-screen {
-  width: 100%;
+.password-gt-xs{
+    width:45%;
+    margin-bottom: 1em;
 }
-
-.use-my-email {
-  @include color-picker(cornflowerblue);
-  cursor: pointer;
+.margin{
+    margin-bottom: 1em;
 }
-
-.password-smaller-screen {
-  width: 100%;
+.password-div{
+    width:90%;
 }
-
-.password-bigger-screen {
-  width: 90%;
+.eye-icon-div{
+    width:10%;
+    height:$fullHeight;
 }
-
-.confirm-smaller-screen {
-  width: 100%;
-  margin-top: 5%;
+.register-further-step{
+    margin-top:0.8em;
+    width:$commonMatWidth;
 }
+.form-width{
+    width:$commonMatWidth;
+    .inside-form{
+        width:$fullWidth;
+    }
+}
+.select-menu-gt-xs{
+    margin-top: 1em;
+    width:$fullWidth;
+}
+.select-menu-lt-sm{
+    width:$fullWidth;
+}
+::ng-deep .mat-form-field-flex > .mat-form-field-infix { padding: 0.4em 0px !important;}
+::ng-deep .mat-form-field-label-wrapper { top: -1.5em; }
 
-.confirm-bigger-screen {
-  width: 80%;
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+    transform: translateY(-1.1em) scale(.75);
+    width: 133.33333%;
+}
+::ng-deep .mat-form-field-suffix{
+    transform: translateY(-0.6em)
 }

@@ -1,70 +1,76 @@
-import { Component } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserServiceService } from 'src/app/services/user-service.service';
-import { Title } from '@angular/platform-browser';
-import { MatSnackBar } from '@angular/material';
+import { UserService } from 'src/app/services/userServices/user.service';
+import { MatSnackBar } from '@angular/material'
+import { HttpService } from 'src/app/services/httpServices/http.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
-  loginForm: FormGroup;
+  loginFormGroup: FormGroup;
+  hidePassword = true;
 
-  constructor(private router: Router, private http: UserServiceService, private snackBar: MatSnackBar, private titleService: Title) {
-    this.setTitle("Log In");
-    this.loginForm = new FormGroup({
-
-      emailFormControl: new FormControl('', [
-        Validators.required,
-        Validators.email,
+  /**
+   * @description  constructor injects these following dependencies on initialization
+   * @param formBuilder : form buider for reactive forms
+   * @param activateRoute : provides routing from one component to other component 
+   * @param userService : provides user services for resetting password 
+   * @param snackBar : snackbar to show resultent details
+   */
+  constructor(private router: Router, private formBuilder: FormBuilder, private userService: UserService,private snackBar:MatSnackBar) {
+  
+    this.loginFormGroup = this.formBuilder.group({
+      "email": new FormControl('', [
+        Validators.email
       ]),
-
-      passwordFormControl: new FormControl('', [
-        Validators.required
+      "password": new FormControl('', [
+        Validators.minLength(8)
       ])
     })
+    
   }
+  /**
+   * @description: using reactive forms email and password are validated and passed to user services 
+   * if user is valid returns successfully loged in message otherwise retunr error message accordingly
+   */
+  login() {
 
-  public setTitle(newTitle: string) {
-    this.titleService.setTitle(newTitle);
-  }
+    var loginData = { email: this.loginFormGroup.get("email").value, password: this.loginFormGroup.get("password").value }
+    this.userService.login(loginData).subscribe((response: any) => {
 
-  onClick(): void {
-    this.router.navigateByUrl('/register');
-  }
+      this.snackBar.open("SuccessFully Logged In", undefined, { duration: 2000 });
 
-  logIn(): void {
-    if (this.loginForm.invalid) {
-      if (this.loginForm.get('emailFormControl').invalid) {
-        this.snackBar.open("Invalid Email Address", '', {
-          duration: 1500
-        });
-      }
-      if (this.loginForm.get('passwordFormControl').invalid) {
-        this.snackBar.open("Password required", '', {
-          duration: 1500
-        });
-      }
-    } else {
-      this.http.logIn({
-        email: this.loginForm.get('emailFormControl').value,
-        password: this.loginForm.get('passwordFormControl').value
-      })
-      this.loginForm.reset();
-    }
+      this.userService.setUser();
+      
+      //set userDetails to logged in user details
+      sessionStorage.setItem('user',JSON.stringify(response));
+
+      // storing token in localstorage
+      this.router.navigateByUrl('/dashboard');
+    }, (error: any) => {
+      this.snackBar.open(error.message, undefined, { duration: 2000 })
+    });;
 
   }
-
-  forgotPassword(): void {
-    this.http.forgotPassword({
-      email: this.loginForm.get('emailFormControl').value
-    })
+  /**
+   * @description on clicking create account button provide path to register view component
+   */
+  registerPage(): void {
+    this.router.navigateByUrl("/card");
+  }
+  /**
+   * @description provides path to forgotPassword on clicking forgot password button
+   */
+  forgotPassword() {
+    this.router.navigateByUrl("/forgotPassword")
   }
 
+  ngOnInit() {
+
+  }
 }
-
-

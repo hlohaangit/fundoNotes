@@ -1,76 +1,125 @@
+@import 'src/app/SCSS/styles';
 
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined");
 
-.sidenav-bigger-screen {
-  width: 23%;
+.sidenav-container {
+  width:100%;
+  min-height: 100%;
+}
+.toolbar{
+  width:100%;
+  min-width:320px;
 }
 
-.sidenav-smaller-screen {
-  width: 80%;
-  height: 90%;
+.menu-notes-gt-xs{
+  width:20%;
+  min-width:150px;
+}
+.menu-notes-lt-sm{
+  width:30%;
+  min-width:30%;
+}
+.search-toolbar-div{
+  width:700px;
+  min-width:30%;
+  max-width:55%;
+  position: relative;
+}
+.sidenav {
+  width: 300px;
+  overflow: hidden;
 }
 
-.mat-toolbar.mat-primary {
-  position: sticky;
-  top: 0;
-}
-
-.search-box-in-header {
-  margin-left: 6%;
-  border-radius: 5px;
-  border: 1px solid rgb(126, 123, 123);
-  height: 35px;
-  width: 50%;
-  background-color: white;
-}
-
-.three-icons-in-header-bigger-screen {
-  margin-left: 30%;
-}
-
-.three-icons-in-header-smaller-screen {
-  margin-left: 5%;
-}
-
-.fill-remaining-space {
-  /* This fills the remaining space, by using flexbox. 
-     Every toolbar row uses a flexbox row layout. */
-  flex: 1 1 auto;
-  background-image: url(https://designshack.net/wp-content/uploads/best-subtle-black-white-background-textures.jpg);
+.search-div{
+  position: relative;
+  width:100%;
+  min-width:30%;
+  max-width:90%;
+  height:45px;
+  border-radius: 10px;
+  border: 1px solid grey;
 
 }
 
-.log-out-icon {
-  margin-left: 5%;
-}
-
-.sidenav-content {
-  &:hover {
-    background-color: rgb(254, 239, 195);
-    border-bottom-right-radius: 25px;
-    border-top-right-radius: 25px; 
+.search-bar{
+  margin-top: -2.1em;
+  width:100%;
+  height: 100%;
+  &:focus{
+    background-color: white;
+    color: black;
   }
 }
 
-.search-bar-minimized {
-  height: 5px;
-  border-radius: 10px;
+.mat-icon-account-gt-xs{
+  width:30%;
+  max-width:40%;
+}
+.mat-icon-account-lt-sm{
+  width:60%;
 }
 
-.complete-search-bar-minimized {
-  margin-top: 2.5%;
-  width: 280px;
+.mat-icon-class{
+  width:50%;
+  // max-width:200px;
+  min-width:100px;
 }
 
-.complete-search-bar-maximized {
-  margin-top: 2.5%;
-  width: 50%;
+.account-div-lt-sm{
+  width:20%;
+  div{
+    width:100%;
+  }
 }
 
-.occupy-full {
-  width: 100%;
+.account-div-gt-xs{
+  width:50%;
 }
 
-.demo{
+.mat-nav-list{
+  width:100%;
+  mat-list-item{
+    width:100%;
+    border-bottom-right-radius: 25px;
+    border-top-right-radius: 25px; 
+    &:hover{
+      background-color: rgb(233, 207, 123);
+    }
+  }
+}
+.mat-list-item-selected{
+  background-color: rgb(228, 184, 103);
+}
+
+::ng-deep .mat-form-field-prefix{
+    transform: translateY(0.8em);
+}
+
+
+.container {
+  display: flex;
+  flex-direction: column;
   position: absolute;
-  margin-top: 10px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.is-mobile .toolbar {
+  position: fixed;
+  /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+  z-index: 2;
+}
+
+.example-sidenav-container {
+  /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
+     causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
+  flex: 1;
+}
+
+.is-mobile .example-sidenav-container {
+  /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+     `<body>` to be our scrolling element for mobile layouts. */
+  flex: 1 0 auto;
 }
