@@ -1,3 +1,104 @@
 <p>
     question-answer work!
 </p>
+<!-- 
+    <div style="width:80%; margin-left:10%; margin-top:-1em" fxLayout="column">
+    <div fxLayout="row" fxFlex>
+        <div style="width:80%; height:auto; overflow: auto;">
+            <div>
+                <h1>{{notes.title}}</h1>
+            </div>
+            <div>
+                <h4>
+                    {{notes.description}}
+                </h4>
+            </div>
+            <div *ngIf="notes?.noteCheckLists?.length > 0">
+                <div *ngFor="let list of notes.noteCheckLists">
+                    <mat-checkbox [checked]="list.status=='close' ? true : false ">{{list.itemName}}</mat-checkbox>
+                </div>
+            </div>
+        </div>
+        <div fxLayoutAlign="center start" style="width:20%">
+            <div>
+                <button mat-button (click)="closeQuestionAnswers()">
+                    close
+                </button>
+            </div>
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div *ngIf="notes?.questionAndAnswerNotes?.length>0" fxLayout="column" style="overflow-y: scroll;height: 100px" >
+        <div *ngFor="let question of notes.questionAndAnswerNotes" fxLayout="column">
+            <div><em><b>Question Asked</b></em></div>
+            <div [innerHTML]="question.message"></div>
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div *ngIf="notes?.questionAndAnswerNotes?.length != 0 else condition" fxLayoutGap="2px">
+        <div>
+            <div *ngFor="let question of notes.questionAndAnswerNotes; index as i" fxLayout="row"
+                fxLayoutAlign="start center" fxLayoutGap="5%">
+                <div>
+                    <button mat-mini-fab color="" [style.background-image]="getImageUrl(question.user.imageUrl)"
+                        style="background-size: 100% 100%;"></button>
+                </div>
+                <div fxLayout="column" fxLayoutAlign="space-between center">
+                    <div>
+                        <h5>{{question.user.firstName}}
+                            {{question.user.lastName}}
+                            {{question.createdDate | date:"medium"}}</h5>
+                    </div>
+                    <div>
+                        <h3>
+                            <div [innerHTML]="question.message"></div>
+                        </h3>
+                    </div>
+                </div>
+                <div fxLayout="column">
+                    <div *ngIf="!!question && !Liked(question)" (click)="like(question,true,i);">
+                        <mat-icon>thumb_up</mat-icon>
+                    </div>
+                    <div *ngIf="!!question && Liked(question)" (click)="like(question,false,i);">
+                        <mat-icon color="primary">thumb_up</mat-icon>
+                    </div>
+                    <div>
+                        <pre>{{likes[i]}} likes</pre>
+                    </div>
+                </div>
+                <div fxLayout="column">
+                    <div fxLayout="row" class="rating">
+                        <div *ngFor="let index of stars" [ngClass]="{'selected': index <= getAvgRating(question.rate)}">
+                            <span (click)="rate(question.id,index)">☆</span>
+                        </div>
+                    </div>
+                    <div>
+                        {{getAvgRating(question.rate)}}
+                    </div>
+                </div>
+                <div (click)="reply=!reply">
+                    <mat-icon>reply</mat-icon>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="reply">
+            <div>
+                <textarea aria-placeholder="Type something" [froalaEditor] [formControl]="editContent"></textarea>
+            </div>
+            <div fxLayoutAlign="end center">
+                <button (click)="askQuestion()" mat-button color="primary">reply</button>
+            </div>
+        </div>
+    </div>
+    <ng-template #condition>
+        <div>
+            <textarea aria-placeholder="Type something" [froalaEditor] [formControl]="editContent"></textarea>
+        </div>
+        <div fxLayoutAlign="start center">
+            <button (click)="askQuestion()" mat-button color="primary">ASK</button>
+        </div>
+    </ng-template>
+</div>
+
+
+ -->
