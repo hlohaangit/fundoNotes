@@ -22,7 +22,6 @@ export class CartDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    
   }
 
 }

@@ -74,6 +74,9 @@
 
 .account-div-gt-xs{
   width:50%;
+  div{
+    width:35px;
+  }
 }
 
 .mat-nav-list{
@@ -122,4 +125,13 @@
   /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
      `<body>` to be our scrolling element for mobile layouts. */
   flex: 1 0 auto;
+}
+
+.mini-search-bar{
+  width:100%;
+  min-width: 10px;
+  z-index: 1;
+  border:1px solid black;
+  background: white;
+  border-radius: 7px;
 }

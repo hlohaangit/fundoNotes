@@ -14,7 +14,7 @@
               {{data.user.email}}
           </div>
         </mat-list-item>
-        <div *ngIf="data.collaborators.length>0">
+        <div *ngIf="data.collaborators">
           <mat-list-item *ngFor="let person of data.collaborators">
             <mat-icon mat-list-icon>person</mat-icon>
             <div mat-line>
@@ -23,7 +23,7 @@
             <div mat-line>
                 {{person.email}}
             </div>
-            <button (click)="remove(data.id,person.userId)" mat-icon-button><mat-icon>cancel</mat-icon></button>
+            <button (click)="remove(person.userId)" mat-icon-button><mat-icon>cancel</mat-icon></button>
           </mat-list-item>
         </div>
         
@@ -31,7 +31,7 @@
       <mat-list>
         <mat-list-item>
           <mat-icon mat-list-icon>person_add</mat-icon>
-            <input type="search" (keypress)="searchOnKeyPress($event)" placeholder="Email to share with" aria-label="Number" matInput [formControl]="searchWord" [matAutocomplete]="auto">
+            <input type="search" (keyup)="searchOnKeyPress($event)" placeholder="Email to share with" aria-label="Number" matInput [formControl]="searchWord" [matAutocomplete]="auto">
               <mat-autocomplete #auto="matAutocomplete">
                 <mat-option *ngFor="let user of users" (click)="onSelect(user)" style="font-size: 14px;">
                   {{user.firstName}} {{user.lastName}} [{{user.email}}]

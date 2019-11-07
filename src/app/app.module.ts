@@ -4,7 +4,7 @@ import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule, MatListModule, MatButtonModule, MatToolbarModule, MatExpansionModule,
    MatCheckboxModule, MatCardModule, MatTooltipModule, MatTabsModule,
-    MatProgressBarModule, MatChipsModule, MatDatepickerModule, MatAutocompleteModule } from '@angular/material'
+    MatProgressBarModule, MatChipsModule, MatDatepickerModule, MatAutocompleteModule, MatNativeDateModule } from '@angular/material'
 import { MatMenuModule, MatOptionModule, MatSelectModule } from '@angular/material'
 import { MatFormFieldModule, MatIconModule, MatSnackBarModule, MatSidenavModule, MatDialogModule } from '@angular/material'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -33,6 +33,20 @@ import { CardComponent } from './components/card/card.component';
 import { LabelService } from './services/label/label.service';
 import { LabelnotesComponent } from './components/labelnotes/labelnotes.component';
 import { CollaboratorDialogComponent } from './components/collaborator-dialog/collaborator-dialog.component';
+import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
+import { SearchPipe } from './pipe/search.pipe';
+import { PinnedNotesComponent } from './components/pinned-notes/pinned-notes.component';
+import { UnpinnedNotesComponent } from './components/unpinned-notes/unpinned-notes.component';
+import { ReminderComponentComponent } from './components/reminder-component/reminder-component.component';
+import { DatePipe } from '@angular/common';
+import { ReminderNotesComponent } from './components/reminder-notes/reminder-notes.component';
+import { MyDatePipe } from './pipe/date/my-date.pipe';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { ImageCropDialogComponent } from './components/image-crop-dialog/image-crop-dialog.component';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { QuestionAnswerComponent } from './components/question-answer/question-answer.component';
+import { SearchLabelPipe } from './pipe/searchLabel/search-label.pipe';
+
 
 @NgModule({
   declarations: [
@@ -50,7 +64,17 @@ import { CollaboratorDialogComponent } from './components/collaborator-dialog/co
     LabelsDialogComponent,
     CardComponent,
     LabelnotesComponent,
-    CollaboratorDialogComponent
+    CollaboratorDialogComponent,
+    ShoppingCartComponent,
+    SearchPipe,
+    PinnedNotesComponent,
+    UnpinnedNotesComponent,
+    ReminderComponentComponent,
+    ReminderNotesComponent,
+    MyDatePipe,
+    ImageCropDialogComponent,
+    QuestionAnswerComponent,
+    SearchLabelPipe,
   ],
   imports: [
     BrowserModule,
@@ -75,6 +99,7 @@ import { CollaboratorDialogComponent } from './components/collaborator-dialog/co
     MatChipsModule,
     MatProgressBarModule,
     MatDatepickerModule,
+    MatNativeDateModule,
     MatAutocompleteModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -84,10 +109,20 @@ import { CollaboratorDialogComponent } from './components/collaborator-dialog/co
     HttpClientModule,
     LayoutModule,
     ClickOutsideModule,
-    NgxPopper
+    NgxPopper,
+    ImageCropperModule,
+    FroalaEditorModule.forRoot(), 
+    FroalaViewModule.forRoot()
   ],
-  entryComponents: [UpdateDialogComponent, CartDialogComponent, LabelsDialogComponent, CollaboratorDialogComponent],
-  providers: [UserService, HttpService, AuthGuard, CartService, LabelService, RegisterGuard],
+  entryComponents: 
+  [
+    UpdateDialogComponent, 
+    CartDialogComponent, 
+    LabelsDialogComponent, 
+    CollaboratorDialogComponent,
+    ImageCropDialogComponent
+  ],
+  providers: [UserService, HttpService, AuthGuard, CartService, LabelService, RegisterGuard,DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

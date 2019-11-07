@@ -6,6 +6,8 @@ import { UserService } from 'src/app/services/userServices/user.service';
 import { Subject } from 'rxjs';
 import { LabelsDialogComponent } from '../labels-dialog/labels-dialog.component';
 import { LabelService } from 'src/app/services/label/label.service';
+import { environment } from 'src/environments/environment.prod';
+import { ImageCropDialogComponent } from '../image-crop-dialog/image-crop-dialog.component';
 
 
 @Component({
@@ -24,11 +26,7 @@ export class DashboardComponent implements OnInit,OnDestroy {
   // to store a list of labels 
   labels:any;
 
-  // to change backround color of selected sidenav list 
-  onNoteListSelected:Boolean=false;
-  onArchiveListSelected:Boolean=false;
-  onReminderListSelected:Boolean=false;
-  onTrashListSelected:Boolean=false;
+  profileImageUrl:any;
 
   // to emit a an event on selecting grid or list view 
   emitView=new Subject();
@@ -41,6 +39,11 @@ export class DashboardComponent implements OnInit,OnDestroy {
   }
 
   emitLablesEvent=new Subject();
+
+  emitSearchEvent=new Subject();
+
+  openSearhBar:boolean=false;
+
   // changes mode of sidenav on max width 600px
   private _mobileQueryListener: () => void;
 
@@ -59,25 +62,14 @@ export class DashboardComponent implements OnInit,OnDestroy {
 
   }
 
-  /**
-   * @description sets on of the sidenav list value to true, css class with background color gets applied on whichever list return true 
-   * @param nList notes sidenav list item
-   * @param rList reminder sidenav list item
-   * @param aList archive sidenav list item
-   * @param tList trash sidenav list item
-   */
-  sideNavSelectedList(nList,rList,aList,tList){
-
-    this.onNoteListSelected=nList;
-    this.onReminderListSelected=rList;
-    this.onArchiveListSelected=aList;
-    this.onTrashListSelected=tList;
-  }
-
   ngOnInit(){
     this.userDetails=JSON.parse(this.userServices.getUser());
     // to get userService using userId on first initialization
     this.getUserService();
+
+    sessionStorage.setItem("fundooProfileimage",this.userDetails.imageUrl);
+
+    this.getProfilemage();
     // to get all labels created by user
     this.getAllLabels();
 
@@ -129,32 +121,6 @@ export class DashboardComponent implements OnInit,OnDestroy {
     });
   }
 
-  /**
-   * @description route will be changed to archive component  on clicking archive button on sidenav
-   */
-  goToArchiveComponent(){
-   
-    this.sideNavSelectedList(false,false,true,false);
-    this.route.navigateByUrl("dashboard/archive");
-  }
-
-  /**
-   * @description route will be chnaged to notes component on clicking note button on sidenav
-   */
-  goToNotesComponent(){
-   
-    this.sideNavSelectedList(true,false,false,false);
-    this.route.navigateByUrl("dashboard");
-  }
-  /**
-   * @description route changes to trash component on clicking trash button on sidenav
-   */
-  goToTrashComponent(){
-
-    this.sideNavSelectedList(false,false,false,true);
-    this.route.navigateByUrl("dashboard/trashNotes");
-  }
-
  /**
   * @description clears session storage and redirects to login page
   */
@@ -175,12 +141,38 @@ export class DashboardComponent implements OnInit,OnDestroy {
 
   }
 
+  searchBox(event){
+    this.emitSearchEvent.next(event.target.value);
+  }
+
   /**
-   * @description redirect to labelnotes with lablename
-   * @param labelName name of the label on notes
+   * @description gets userProfile image after login
    */
-  getNoteListByLabel(labelName){
-    this.route.navigate(["dashboard/labelNotes",labelName]);
+  getProfilemage(){
+    let profileImage=sessionStorage.getItem("fundooProfileimage");
+    this.profileImageUrl = `url(http://fundoonotes.incubation.bridgelabz.com/${profileImage})`;
+  }
+
+  /**
+   * @description it opens a imagecrop dialog component with selected image as cropped input, saves profileimages on upload
+   * @param event input file event 
+   */
+  fileChangeEvent(event){
+    const dialogRef = this.dialog.open(ImageCropDialogComponent, {
+      width: 'auto',
+      height:"auto",
+      data: event
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      let fd=new FormData();
+      fd.append('file',result);
+      // console.log(result);
+      this.userServices.uploadProfileImage(fd).subscribe((response:any)=>{
+        sessionStorage.setItem("fundooProfileimage",response.status.imageUrl);
+        this.getProfilemage();
+      });
+    });
   }
 
   ngOnDestroy(): void {

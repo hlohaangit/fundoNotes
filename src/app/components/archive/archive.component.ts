@@ -4,6 +4,7 @@ import { MatSnackBar, MatDialog } from '@angular/material';
 import { Subject } from 'rxjs';
 import { UpdateDialogComponent } from '../update-dialog/update-dialog.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
+import { LabelService } from 'src/app/services/label/label.service';
 
 export interface DialogData {
   noteId: String;
@@ -21,6 +22,8 @@ export class ArchiveComponent implements OnInit {
 
   notesList: any;
 
+  labels=new Array();
+
   private getNotesObs: any;
   colorChange: boolean[] = new Array();
 
@@ -30,10 +33,14 @@ export class ArchiveComponent implements OnInit {
     viewStyling: true
   }
 
+  // filtering notes with searchWord
+  searchWord:string;
+  searchLabel:string;
+  
   public emitObservable: Subject<void> = new Subject<void>();
 
   constructor(private noteServices: NoteService, private snackBar: MatSnackBar, public dialog: MatDialog,
-    private dashBoard: DashboardComponent) {
+    private dashBoard: DashboardComponent,private labelService:LabelService) {
 
     // modifies data on list and grid view
     this.data = this.dashBoard.getData();
@@ -49,10 +56,16 @@ export class ArchiveComponent implements OnInit {
     console.log("created");
 
     this.getNotesList();
-
+    this.getAllLabels();
+    
     this.getNotesObs = this.emitObservable.subscribe(() => {
       this.getNotesList();
+      this.getAllLabels();
     });
+
+    this.dashBoard.emitSearchEvent.subscribe((search:string)=>{
+      this.searchWord=search;
+    })
 
   }
 
@@ -60,15 +73,13 @@ export class ArchiveComponent implements OnInit {
 
     const dialogRef = this.dialog.open(UpdateDialogComponent, {
       width: '550px',
-      data: { noteId: note.id, title: note.title, description: note.description, color: note.color },
+      data: note,
       panelClass: "matDialogBox"
     });
 
     dialogRef.afterClosed().subscribe(result => {
 
-      if(result.color!=note.color){
-        this.updateBackgroundColor(result.color,note);
-      }
+      this.updateBackgroundColor(result.color,note);
       if(result.isDeleted){
         this.delete(note);
       }
@@ -88,6 +99,7 @@ export class ArchiveComponent implements OnInit {
   getNotesList() {
     this.noteServices.getNotesList().subscribe((response: any) => {
       this.notesList = response.data.data;
+      this.notesList.reverse();
     }, (error) => {
       this.snackBar.open(error.message, undefined, { duration: 2000 });
     })
@@ -139,11 +151,145 @@ export class ArchiveComponent implements OnInit {
       this.emitObservable.next();
     });
   }
-  // addReminder(){
-  //   this.isReminderEnable=!this.isReminderEnable;
-  // }
+  
+  /**
+   * @description to update checkbox status with close on checked or open on unchecked
+   * @param event event is an event emitter of mat checkbox 
+   * @param noteId note id of checkList
+   * @param item checkList item details
+   */
+  changecheckListStatus(noteId,item,event){
+    if(event.checked){
+      let data={itemName:item.itemName,status:"close"};
+      this.noteServices.updateCheckList(noteId,item.id,data).subscribe((response)=>{
+        this.emitObservable.next();
+      });
+    }
+    else{
+      let data={itemName:item.itemName,status:"open"};
+      this.noteServices.updateCheckList(noteId,item.id,data).subscribe((response)=>{
+        this.emitObservable.next();
+      });
+    }
+  }
+
+  /**
+   * @description if atleast on open or close list item exist then show list item otherwise hide it
+   * @param noteCheckLists checkList notes
+   * @param status status of list item  
+   */
+  checkListItemStatus(noteCheckLists,status){
+    for(let item of noteCheckLists)
+    {
+      if(item.status==status)
+        return true;
+    }
+    return false;
+  }
+
+   /**
+   * @description to set reminder to a notes
+   * @param reminderTimeDate 
+   */
+  setReminder(reminderTimeDate,note){
+    let data={noteIdList:[note.id],reminder:reminderTimeDate};
+
+    console.log(data.reminder);
+    this.noteServices.addUpdateReminderNotes(data).subscribe((response)=>{
+      // console.log(response)
+      this.emitObservable.next();
+    });
+  }
+
+  /**
+   * @description to delete a note's reminder
+   * @param noteId id of notes with reminder
+   */
+  removeReminder(noteId){
+    let data={noteIdList:[noteId]};
+    this.noteServices.removeReminderNotes(data).subscribe((response)=>{
+      this.emitObservable.next();
+    })
+  }
+
+  /**
+   * @description if reminder completed then strike that reminder
+   * @param reminder note reminder
+   */
+  reminderDecoration(reminder){
+    let today=new Date();
+    let newReminder=reminder.replace('GMT+0000','GMT+0530');
+    let reminderDate=new Date(newReminder);
+    if(today.getTime()>reminderDate.getTime())
+      return "line-through";
+    return "none";
+  }
 
   ngOnDestroy() {
     this.getNotesObs.unsubscribe();
+  }
+
+  /**
+   * @description get all the labels created by user
+   */
+  getAllLabels() {
+    this.labelService.getNoteLabelList().subscribe((response: any) => {
+      this.labels = response.data.details;
+    });
+  }
+
+  /**
+   * @description adds a label to notes
+   * @param noteId note id of note to which label will be added 
+   * @param label label details to add
+   */
+  addLable(noteId, labelId, event) {
+
+    if (event.checked) {
+      this.noteServices.addLabelToNote(noteId, labelId).subscribe((response) => {
+        // console.log(response);
+        this.emitObservable.next();
+      })
+    }
+    else {
+      this.removeLabel(noteId, labelId);
+    }
+
+  }
+
+  /**
+   * @description removing a label with post request params 
+   * @param noteId noteid to which label attached
+   * @param labelId label id
+   */
+  removeLabel(noteId, labelId) {
+    this.noteServices.removeLabelToNotes(noteId, labelId).subscribe((response) => {
+      // console.log(response);
+      this.emitObservable.next();
+    })
+  }
+
+  /**
+   * @description to show that label is already selected and checkbox is checked
+   * @param note note to which check label is checked or not 
+   * @param label label details 
+   */
+  isChecked(note, label) {
+
+    for (let notelabel of note.noteLabels) {
+      if (notelabel.label == label.label)
+        return true;
+    }
+    return false;
+
+  }
+
+  /**
+   * @description keyboard char input reading to search
+   * @param event 
+   */
+  searchLabelMatInput(event){
+    this.searchLabel=event.target.value;
+    console.log(this.searchLabel)
   }
 }

@@ -1,20 +1,25 @@
 <div class="container" [class.is-mobile]="mobileQuery.matches">
   <mat-toolbar class="toolbar" fxLayoutAlign.gt-xs="start center" fxLayoutAlign.lt-sm="space-between center">
       <div ngClass.gt-xs="menu-notes-gt-xs" ngClass.lt-sm="menu-notes-lt-sm" fxLayoutAlign="start center">
-          <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
               <!-- *ngIf="isHandset$ | async" -->
               <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
             </button>
             <img src="src/assets/images/keep_48dp.png" fxHide.lt-sm="true" />
-            <h3>Notes</h3>
+            <h4>Notes</h4>
+          </div>
+          <div [fxHide.gt-xs]="true" [fxHide]="!openSearhBar" class="mini-search-bar" fxFlexFill>
+            <input matInput type="search" placeholder="Search" (keyup)="searchBox($event)"/>
+          </div>
       </div>
-    
+      
       <!-- mat search box -->
       <div fxHide.lt-sm="true" fxLayoutAlign="start center" fxLayout="row" class="search-toolbar-div">
         <div fxHide.lt-sm="true" class="search-div" fxLayoutAlign="center center">
           <mat-form-field class="search-bar" appearance="fill legacy">
             <span matPrefix><button mat-icon-button><mat-icon >search</mat-icon></button></span>
-            <input matInput type="search" placeholder="Search"/>
+            <input matInput type="search" placeholder="Search" (keyup)="searchBox($event)"/>
           </mat-form-field>
         </div>
       </div>
@@ -23,33 +28,42 @@
     
         <!-- mat icons -->
         <div fxLayout="row" class="mat-icon-class" fxLayoutAlign="space-around center">
-            <div fxLayoutAlign="center center">
-              <button mat-icon-button color="" fxHide.gt-xs="true">
+            <div fxLayoutAlign="center center" style="z-index: 1;">
+              <button mat-icon-button color="" fxHide.gt-xs="true" (click)="openSearhBar=!openSearhBar">
                 <mat-icon matTooltip="Search">search</mat-icon>
               </button>
             </div>
-            <div fxLayoutAlign="center center"><mat-icon matTooltip="refresh">refresh</mat-icon></div>
+            <div fxLayoutAlign="center center" ><mat-icon matTooltip="refresh">refresh</mat-icon></div>
             <div fxLayoutAlign="center center" [fxHide]="view" (click)="listOrGridview('list')" fxHide.lt-sm="true" matTooltip="List view"><mat-icon>list</mat-icon></div>
             <div fxLayoutAlign="center center" [fxHide]="!view" (click)="listOrGridview('grid')" fxHide.lt-sm="true" matTooltip="Grid view"><mat-icon>view_comfy</mat-icon></div>
-            <div fxLayoutAlign="center center" (click)="goToCartComponent()"><mat-icon matTooltip="Shopping cart">shopping_cart</mat-icon></div>
+            <div fxLayoutAlign="center center" routerLink="/dashboard/cart" ><mat-icon matTooltip="Shopping cart">shopping_cart</mat-icon></div>
         </div>
           
         <!-- account icon --> 
         <div ngClass.gt-xs="account-div-gt-xs" ngClass.lt-sm="account-div-lt-sm" fxLayoutAlign="end center">
-            <mat-icon fxHide.lt-sm="true" matTooltip="Apps">apps</mat-icon>
-            <button mat-mini-fab color="" [matMenuTriggerFor]="account">{{userDetails.imageUrl}}</button>
-            <mat-menu #account="matMenu">
-              <mat-card>
-                <div style="height:20%; width:30%">
-                  <div><h1>{{userDetails.firstName}}</h1></div>
-                  <div>{{userDetails.email}}</div>
-                </div>
-              </mat-card>
-              <div mat-menu-item>
-                <button mat-button>Add account</button>
-                <button mat-button (click)="logout()">Logout</button>
-              </div>
-            </mat-menu>
+            <div>
+              <mat-icon fxHide.lt-sm="true" matTooltip="Apps">apps</mat-icon>
+            </div>
+            <div>
+              <button mat-mini-fab color="" [matMenuTriggerFor]="account" [style.background-image]="profileImageUrl" style="background-size: 100% 100%;"></button>
+                <mat-menu #account="matMenu">
+                  <mat-card>
+                    <div style="height:20%; width:30%">
+                      <div (click)="$event.stopPropagation()" fxLayout="row">
+                        <button mat-fab color="primary" (click)="fileInput.click()" [style.background-image]="profileImageUrl" style="background-size: 100% 100%;">
+                          <input #fileInput type="file" (change)="fileChangeEvent($event)" style="display:none;" />
+                        </button> 
+                        <h1>{{userDetails.firstName}}</h1>
+                      </div>
+                      <div>{{userDetails.email}}</div>
+                    </div>
+                  </mat-card>
+                  <div mat-menu-item>
+                    <button mat-button>Add account</button>
+                    <button mat-button (click)="logout()">Logout</button>
+                  </div>
+                </mat-menu>
+            </div>
 
         </div>
     
@@ -61,12 +75,12 @@
       <mat-nav-list class="mat-nav-list">
 
           <!-- notes -->
-          <mat-list-item  (click)="goToNotesComponent();" [ngClass]="{'mat-list-item-selected': onNoteListSelected}">
+          <mat-list-item routerLink="/dashboard/" [ngClass]="{'mat-list-item-selected': onNoteListSelected}">
             <img src="src/assets/images/outline_emoji_objects_black_18dp.png"><span style="margin-left:3em">Notes</span>
           </mat-list-item>
     
           <!-- remainders -->
-          <mat-list-item [ngClass]="{'mat-list-item-selected': onReminderListSelected}" [fxHide]="!isAdvancedUser">
+          <mat-list-item [ngClass]="{'mat-list-item-selected': onReminderListSelected}" [fxHide]="!isAdvancedUser" routerLink="reminderNotes" routerLinkActive="active">
               <div><mat-icon>notifications_none</mat-icon></div><div style="margin-left:3em">Remainders</div>
           </mat-list-item>
           
@@ -77,7 +91,7 @@
           <mat-label style="margin-left:1em; margin-top:1em; margin-bottom: 1em" [fxHide]="!isAdvancedUser">LABELS</mat-label> 
           
         
-          <mat-list-item *ngFor="let label of labels" (click)="getNoteListByLabel(label.label)"> 
+          <mat-list-item *ngFor="let label of labels" [routerLink]='["/dashboard/labelNotes",label.label]'> 
               <mat-icon>label</mat-icon><div style="margin-left:3em">{{label.label}}</div>
           </mat-list-item>
 
@@ -88,21 +102,21 @@
           
           <mat-divider [fxHide]="!isAdvancedUser"></mat-divider>
           
-          <mat-list-item [fxHide]="!isAdvancedUser" (click)="goToArchiveComponent()" [ngClass]="{'mat-list-item-selected': onArchiveListSelected}">
+          <mat-list-item [fxHide]="!isAdvancedUser" routerLink="archive" routerLinkActive="active" [ngClass]="{'mat-list-item-selected': onArchiveListSelected}">
             <mat-icon>archive</mat-icon><div style="margin-left:3em">Archive</div>
           </mat-list-item>
     
-          <mat-list-item [fxHide]="!isAdvancedUser" (click)="goToTrashComponent();" [ngClass]="{'mat-list-item-selected': onTrashListSelected}">
+          <mat-list-item [fxHide]="!isAdvancedUser" routerLink="trashNotes" routerLinkActive="active" [ngClass]="{'mat-list-item-selected': onTrashListSelected}">
             <mat-icon>restore_from_trash</mat-icon><div style="margin-left:3em" >Trash</div>
           </mat-list-item>
     
         </mat-nav-list>
     </mat-sidenav>
 
-    <mat-sidenav-content fxLayout="column"  fxLayoutAlign="start center" fxLayoutGap="3%" >
-
+    <mat-sidenav-content>
+      <div style="width:100%;height: 100%;" fxLayout="column" fxLayoutGap="3%">
         <router-outlet></router-outlet>
-    
+      </div>    
       </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

@@ -24,6 +24,9 @@ export class TrashComponent implements OnInit {
 
   public emitObservable: Subject<void> = new Subject<void>();
 
+  // filtering notes with searchWord
+  searchWord:string;
+
   constructor(private noteServices: NoteService, private snackBar: MatSnackBar,
     private dashBoard: DashboardComponent) {
       
@@ -43,10 +46,15 @@ export class TrashComponent implements OnInit {
       this.getNotesList();
     });
 
+    this.dashBoard.emitSearchEvent.subscribe((search:string)=>{
+      this.searchWord=search;
+    })
+
   }
   getNotesList() {
     this.noteServices.getNotesList().subscribe((response: any) => {
       this.notesList = response.data.data;
+      this.notesList.reverse();
     }, (error) => {
       this.snackBar.open(error.message, undefined, { duration: 2000 });
     })
@@ -76,6 +84,19 @@ export class TrashComponent implements OnInit {
     this.noteServices.deleteNotes(newNote).subscribe((response) => {
       this.emitObservable.next();
     });
+  }
+
+  /**
+   * @description if reminder completed then strike that reminder
+   * @param reminder note reminder
+   */
+  reminderDecoration(reminder){
+    let today=new Date();
+    let newReminder=reminder.replace('GMT+0000','GMT+0530');
+    let reminderDate=new Date(newReminder);
+    if(today.getTime()>reminderDate.getTime())
+      return "line-through";
+    return "none";
   }
 
   ngOnDestroy() {

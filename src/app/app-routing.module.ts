@@ -12,6 +12,9 @@ import { TrashComponent } from './components/trash/trash.component';
 import { AuthGuard, RegisterGuard } from './auth/auth.guard';
 import { CardComponent } from './components/card/card.component';
 import { LabelnotesComponent } from './components/labelnotes/labelnotes.component';
+import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
+import { ReminderNotesComponent } from './components/reminder-notes/reminder-notes.component';
+import { QuestionAnswerComponent } from './components/question-answer/question-answer.component';
 
 const routes: Route[] = [
   { path: '', redirectTo: "/card", pathMatch: 'full' },
@@ -28,7 +31,10 @@ const routes: Route[] = [
       { path: "", component: NotesComponent },
       { path: "archive", component: ArchiveComponent },
       { path: "trashNotes", component: TrashComponent },
-      { path: "labelNotes/:labelName", component: LabelnotesComponent }
+      { path: "labelNotes/:labelName", component: LabelnotesComponent },
+      { path: "cart", component: ShoppingCartComponent},
+      { path: "reminderNotes", component: ReminderNotesComponent },
+      { path: "QuestionAnswer/:noteId", component: QuestionAnswerComponent }
     ]
   },
   { path: 'notes', component: NotesComponent },

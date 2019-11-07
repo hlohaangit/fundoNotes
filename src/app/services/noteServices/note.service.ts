@@ -166,4 +166,69 @@ export class NoteService {
     return this.httpService.postWithToken(url,data);
 
   }
+  /**
+   * @description to update a checkList item of aparticular notes 
+   * @param noteId note id to update item in that notes
+   * @param checkListId checklist item id
+   * @param data new updated data 
+   */
+  updateCheckList(noteId,checkListId,data){
+    let url=`/notes/${noteId}/checklist/${checkListId}/update`;
+    return this.httpService.postWithToken(url,data);
+  }
+
+  /**
+   * @description deleting a list item from notes checkLists 
+   * @param noteId id of notes 
+   * @param checkListId checklist item id
+   */
+  removeCheckListItem(noteId,checkListId){
+    let url=`/notes/${noteId}/noteCheckLists/${checkListId}`;
+
+    return this.httpService.delete(url,null);
+  }
+
+  // /**
+  //  * @description gets all checkList Items in the notes with notesid
+  //  * @param noteId note Id
+  //  */
+  // getNoteCheckLists(noteId){
+  //   let url= `/notes/${noteId}/noteCheckLists`;
+  //   return this.httpService.getWithToken(url);
+  // }
+
+  /**
+   * @description to add or update a remindier notes
+   * @param data send data to add to notes
+   */
+  addUpdateReminderNotes(data){
+    let url=`/notes/addUpdateReminderNotes`;
+    return this.httpService.postWithToken(url,data);
+  }
+
+  /**
+   * @description to add or update a remindier notes
+   * @param data send data to add to notes
+   */
+  removeReminderNotes(data){
+    let url=`/notes/removeReminderNotes`;
+    return this.httpService.postWithToken(url,data);
+  }
+
+  /**
+   * @description getting all reminder notes List
+   */
+  getReminderNotesList(){
+    let url=`/notes/getReminderNotesList`;
+    return this.httpService.getWithToken(url);
+  }
+
+  /**
+   * @description get a notes details with its Id
+   * @param noteId notes Id in string format
+   */
+  getNoteWithId(noteId){
+    let url=`/notes/getNotesDetail/${noteId}`;
+    return this.httpService.getWithToken(url);
+  }
 }
