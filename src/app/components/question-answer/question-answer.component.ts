@@ -15,7 +15,7 @@ export class QuestionAnswerComponent implements OnInit {
   notes: any = {
     title: "",
     description: "",
-    noteCheckLists: [],
+ //   noteCheckLists: [],
     questionAndAnswerNotes: [{
       createdDate: "",
       like: [{
@@ -63,7 +63,7 @@ export class QuestionAnswerComponent implements OnInit {
     let length=this.notes.questionAndAnswerNotes.length;
     this.likes.length=length;
     this.ratings.length=length;
-    this.isLiked.length=length;
+    // this.isLiked.length=length;
 
     this.likes.fill(0);
     this.ratings.fill(0);
@@ -74,9 +74,9 @@ export class QuestionAnswerComponent implements OnInit {
           ++this.likes[index];
         }
       }
-      for (let rate of question.rate) {
-          this.ratings[index]=rate.rate;
-      }
+      // for (let rate of question.rate) {
+      //     this.ratings[index]=rate.rate;
+      // }
       index++;
     }
   }
